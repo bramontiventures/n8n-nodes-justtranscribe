@@ -1,0 +1,21 @@
+{
+  "name": "JustTranscribe smoke test",
+  "nodes": [
+    { "parameters": {}, "name": "Manual", "type": "n8n-nodes-base.manualTrigger", "typeVersion": 1, "position": [0, 0] },
+    { "parameters": { "resource": "account", "operation": "get" }, "name": "Account", "type": "n8n-nodes-justtranscribe.justTranscribe", "typeVersion": 1, "position": [220, 0],
+      "credentials": { "justTranscribeApi": { "id": "YOUR_CREDENTIAL_ID", "name": "JustTranscribe API" } } },
+    { "parameters": { "resource": "transcript", "operation": "create", "source": "url", "url": "https://www.youtube.com/watch?v=jNQXAC9IVRw", "waitForCompletion": true, "maxWaitSeconds": 600 }, "name": "Create", "type": "n8n-nodes-justtranscribe.justTranscribe", "typeVersion": 1, "position": [440, 0],
+      "credentials": { "justTranscribeApi": { "id": "YOUR_CREDENTIAL_ID", "name": "JustTranscribe API" } } },
+    { "parameters": { "resource": "transcript", "operation": "export", "transcriptId": "={{ $json.id }}", "format": "srt", "exportOptions": {} }, "name": "Export", "type": "n8n-nodes-justtranscribe.justTranscribe", "typeVersion": 1, "position": [660, 0],
+      "credentials": { "justTranscribeApi": { "id": "YOUR_CREDENTIAL_ID", "name": "JustTranscribe API" } } },
+    { "parameters": { "resource": "transcript", "operation": "delete", "transcriptId": "={{ $('Create').item.json.id }}" }, "name": "Delete", "type": "n8n-nodes-justtranscribe.justTranscribe", "typeVersion": 1, "position": [880, 0],
+      "credentials": { "justTranscribeApi": { "id": "YOUR_CREDENTIAL_ID", "name": "JustTranscribe API" } } }
+  ],
+  "connections": {
+    "Manual": { "main": [[{ "node": "Account", "type": "main", "index": 0 }]] },
+    "Account": { "main": [[{ "node": "Create", "type": "main", "index": 0 }]] },
+    "Create": { "main": [[{ "node": "Export", "type": "main", "index": 0 }]] },
+    "Export": { "main": [[{ "node": "Delete", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" }
+}

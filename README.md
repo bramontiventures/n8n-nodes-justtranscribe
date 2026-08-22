@@ -54,6 +54,14 @@ Full API reference: <https://justtranscribe.ai/developers>.
    **Transcript → Export** (format `txt`) and use `{{ $json.content }}`.
 4. Append to your sheet.
 
+## Example workflow file
+
+[`examples/smoke-test.workflow.json`](examples/smoke-test.workflow.json) —
+Manual trigger → Account Get → Create (YouTube URL, wait until finished) →
+Export SRT → Delete. Import it from the n8n editor menu, pick your
+credential on each JustTranscribe node, and run. This is the exact workflow
+that is executed against production before every release.
+
 ## Limits (free beta)
 
 3 new transcripts per hour per account, one processing at a time, 120
