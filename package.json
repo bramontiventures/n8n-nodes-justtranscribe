@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-justtranscribe",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "n8n community node for JustTranscribe \u2014 transcribe audio/video files and public video links (YouTube, TikTok, Instagram, WhatsApp voice notes) into timestamped text, with speaker labels, 111-language translation and SRT/TXT/DOCX exports",
   "keywords": [
     "n8n-community-node-package",
@@ -58,5 +58,8 @@
     "n8n-workflow": "^2.16.0",
     "rimraf": "^5.0.0",
     "typescript": "^5.8.2"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
   }
 }
