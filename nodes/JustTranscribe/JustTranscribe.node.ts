@@ -6,7 +6,8 @@ import type {
 	INodeType,
 	INodeTypeDescription,
 } from 'n8n-workflow';
-import { NodeApiError, NodeOperationError, sleep } from 'n8n-workflow';
+import type { JsonObject } from 'n8n-workflow';
+import { NodeApiError, NodeConnectionTypes, NodeOperationError, sleep } from 'n8n-workflow';
 
 const BASE_URL = 'https://justtranscribe.ai';
 
@@ -19,7 +20,7 @@ export class JustTranscribe implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'JustTranscribe',
 		name: 'justTranscribe',
-		icon: 'file:justtranscribe.svg',
+		icon: { light: 'file:justtranscribe.svg', dark: 'file:justtranscribe.dark.svg' },
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
@@ -29,8 +30,8 @@ export class JustTranscribe implements INodeType {
 			name: 'JustTranscribe',
 		},
 		usableAsTool: true,
-		inputs: ['main'],
-		outputs: ['main'],
+		inputs: [NodeConnectionTypes.Main],
+		outputs: [NodeConnectionTypes.Main],
 		credentials: [
 			{
 				name: 'justTranscribeApi',
@@ -517,8 +518,10 @@ export class JustTranscribe implements INodeType {
 					});
 					continue;
 				}
-				if (error instanceof NodeOperationError) throw error;
-				throw new NodeApiError(this.getNode(), error as never, { itemIndex: i });
+				if (error instanceof NodeOperationError) {
+					throw new NodeOperationError(this.getNode(), error.message, { itemIndex: i });
+				}
+				throw new NodeApiError(this.getNode(), error as JsonObject, { itemIndex: i });
 			}
 		}
 

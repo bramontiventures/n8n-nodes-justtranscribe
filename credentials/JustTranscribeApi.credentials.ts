@@ -2,6 +2,7 @@ import type {
 	IAuthenticateGeneric,
 	ICredentialTestRequest,
 	ICredentialType,
+	Icon,
 	INodeProperties,
 } from 'n8n-workflow';
 
@@ -10,7 +11,8 @@ export class JustTranscribeApi implements ICredentialType {
 
 	displayName = 'JustTranscribe API';
 
-	// eslint-disable-next-line n8n-nodes-base/cred-class-field-documentation-url-miscased
+	icon: Icon = { light: 'file:justtranscribe.svg', dark: 'file:justtranscribe.dark.svg' };
+
 	documentationUrl = 'https://justtranscribe.ai/developers';
 
 	properties: INodeProperties[] = [
